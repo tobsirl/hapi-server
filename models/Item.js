@@ -6,7 +6,7 @@ const ItemSchema = new Schema({
     type: String,
     required: true
   },
-  quanity: {
+  quantity: {
     type: Number,
     required: true
   },
@@ -16,4 +16,4 @@ const ItemSchema = new Schema({
   }
 });
 
-export default mongoose.model('item', ItemSchema);
+export default mongoose.model('Item', ItemSchema, 'items');

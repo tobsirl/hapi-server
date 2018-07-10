@@ -2,7 +2,7 @@
 
 import Hapi from 'hapi';
 import mongoose from 'mongoose';
-//import dotenv from 'dotenv';
+const ItemController = require('./controllers/item');
 
 //dotenv.config();
 
@@ -13,10 +13,10 @@ const server = Hapi.server({
 });
 
 // Connect to database
-mongoose
-  .connect('mongodb://localhost/hapi-item')
-  .then(() => console.log('MongoDB Connected'))
-  .catch(err => console.log(err));
+// mongoose
+//   .connect('mongodb://localhost:27017/hapi-item')
+//   .then(() => console.log('MongoDB Connected'))
+//   .catch(err => console.log(err));
 
 // Add the route
 server.route({
@@ -27,16 +27,56 @@ server.route({
   }
 });
 
+// Home route
+server.route({
+  method: 'GET',
+  path: '/',
+  handler: (request, h) => {
+    return 'Test the first route';
+  }
+});
+
+// @route   GET api/items/
+// @desc    List all Items
+// @access  Public
+// @CRUD
+server.route({
+  method: 'GET',
+  path: '/api/items',
+  handler: ItemController.list
+});
+
+server.route({
+  method: 'POST',
+  path: '/api/items',
+  handler: ItemController.create
+});
+
 // Start the server
 async function start() {
   try {
     await server.start();
+    mongoose
+      .connect(
+        'mongodb://localhost:27017/hapi-item',
+        {}
+      )
+      .then(
+        () => {
+          console.log(`Connected to Mongo server`);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    //registerRoutes();
+    console.log(`Server running at: ${server.info.uri}`);
   } catch (err) {
     console.log(err);
     process.exit(1);
   }
 
-  console.log('Server running at:', server.info.uri);
+  //console.log(`Server running at: ${server.info.uri}`);
 }
 
 start();
