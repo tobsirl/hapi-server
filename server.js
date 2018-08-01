@@ -3,6 +3,7 @@
 import Hapi from 'hapi';
 import mongoose from 'mongoose';
 const ItemController = require('./controllers/item');
+const FibController = require('./controllers/fibonacci');
 
 //dotenv.config();
 
@@ -50,6 +51,13 @@ server.route({
   method: 'POST',
   path: '/api/items',
   handler: ItemController.create
+});
+
+// Fibonacci
+server.route({
+  method: 'GET',
+  path: '/api/fibonacci',
+  handler: FibController.fib
 });
 
 // Start the server

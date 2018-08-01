@@ -3,7 +3,7 @@ import Item from '../models/Item';
 /*
 * GET | List all Items
 */
-exports.list = (req, h) => {
+export function list(req, h) {
   return Item.find({})
     .exec()
     .then(item => {
@@ -69,4 +69,6 @@ export function remove(req, h) {
     });
   });
 }
+
+
 
